@@ -2,7 +2,7 @@
 if (PHP_SAPI !== 'cli') {
     die("Este script solo se puede ejecutar en la línea de comandos (CLI).\n");
 }
-hola odkojfinmwe
+
 $archiu_json = 'tareas.json';
 
 function cargarTareasJSON($archiu) {
@@ -13,20 +13,7 @@ function cargarTareasJSON($archiu) {
     return [];
 }
 
-
-function MarcarTareas($archiu_json, $id) {
-    global $tareas;
-    if (isset($tareas[$id])) {
-        $tareas[$id]['completada'] = true;
-        guardarTareasJSON($archiu_json, $tareas);
-        echo "La tarea $id se ha marcado como completada.\n";
-    } else {
-        echo"No se ha encontrado ninguna tarea con el identificador $id.\n";
-    }
-}
-
-
-function guardarTareasJSON($archiu, $tareas){
+function guardarTareasJSON($archiu, $tareas) {
     $json_data = json_encode($tareas, JSON_PRETTY_PRINT);
     if (file_put_contents($archiu, $json_data) !== false) {
         echo "Las tareas se han guardado correctamente en el archivo $archiu.\n";
@@ -35,23 +22,15 @@ function guardarTareasJSON($archiu, $tareas){
     }
 }
 
-$tareas = cargarTareasJSON($archiu_json);
-
 function generarID($cadena) {
-
     return substr(sha1($cadena), 0, 2);
 }
 
-function afegirTarea($archiu_json, $descripcion){
-    return substr(sha1($cadena), 0, 5);
-}
-
 function afegirTarea($descripcion) {
-
-    global $tareas;
+    global $tareas, $archiu_json;
     $id = generarID($descripcion);
     $dataAfegit = date('Y-m-d H:i:s');
-    $tareas[$id] = [ 'descripcion' => $descripcion, 'dataAfegit' => $dataAfegit, 'completada' => false];
+    $tareas[$id] = ['descripcion' => $descripcion, 'dataAfegit' => $dataAfegit, 'completada' => false];
     guardarTareasJSON($archiu_json, $tareas);
     return $id;
 }
@@ -69,14 +48,19 @@ function llistarTareas() {
     }
 }
 
-
-function eliminarTarea( $archiu_json, $id) {
-
-
+function MarcarTareas($id) {
+    global $tareas, $archiu_json;
+    if (isset($tareas[$id])) {
+        $tareas[$id]['completada'] = true;
+        guardarTareasJSON($archiu_json, $tareas);
+        echo "La tarea $id se ha marcado como completada.\n";
+    } else {
+        echo "No se ha encontrado ninguna tarea con el identificador $id.\n";
+    }
+}
 
 function eliminarTarea($id) {
-
-    global $tareas;
+    global $tareas, $archiu_json;
     if (isset($tareas[$id])) {
         unset($tareas[$id]);
         guardarTareasJSON($archiu_json, $tareas);
@@ -85,6 +69,8 @@ function eliminarTarea($id) {
         echo "No se ha encontrado ninguna tarea con el identificador $id.\n";
     }
 }
+
+$tareas = cargarTareasJSON($archiu_json);
 
 while (true) {
     echo "Opciones:\n";
@@ -100,11 +86,7 @@ while (true) {
         case 'a':
             echo "Introduce la descripción de la tarea: ";
             $descripcion = readline();
-
-            $id = afegirTarea($archiu_json, $descripcion);
-
             $id = afegirTarea($descripcion);
-
             echo "Se ha añadido una nueva tarea con el identificador $id.\n";
             break;
 
@@ -117,22 +99,14 @@ while (true) {
         case 'c':
             echo "Introduce el identificador de la tarea a marcar como completada: ";
             $id = readline();
-
-            MarcarTareas($archiu_json, $id);
-
-            eliminarTarea($id);
-
+            MarcarTareas($id);
             break;
 
         case 'D':
         case 'd':
             echo "Introduce el identificador de la tarea a eliminar: ";
             $id = readline();
-
-            eliminarTarea($archiu_json, $id);
-
             eliminarTarea($id);
-
             break;
 
         case 'F':
@@ -145,5 +119,4 @@ while (true) {
             break;
     }
 }
-
 ?>
