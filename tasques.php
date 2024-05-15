@@ -2,7 +2,7 @@
 if (PHP_SAPI !== 'cli') {
     die("Este script solo se puede ejecutar en la línea de comandos (CLI).\n");
 }
-
+hola odkojfinmwe
 $archiu_json = 'tareas.json';
 
 function cargarTareasJSON($archiu) {
