@@ -13,7 +13,7 @@ function cargarTareasJSON($archiu) {
     return [];
 }
 
-<<<<<<< HEAD
+
 function MarcarTareas($archiu_json, $id) {
     global $tareas;
     if (isset($tareas[$id])) {
@@ -25,8 +25,7 @@ function MarcarTareas($archiu_json, $id) {
     }
 }
 
-=======
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
 function guardarTareasJSON($archiu, $tareas){
     $json_data = json_encode($tareas, JSON_PRETTY_PRINT);
     if (file_put_contents($archiu, $json_data) !== false) {
@@ -39,17 +38,16 @@ function guardarTareasJSON($archiu, $tareas){
 $tareas = cargarTareasJSON($archiu_json);
 
 function generarID($cadena) {
-<<<<<<< HEAD
+
     return substr(sha1($cadena), 0, 2);
 }
 
-function afegirTarea($archiu_json, $descripcion) {
-=======
+function afegirTarea($archiu_json, $descripcion){
     return substr(sha1($cadena), 0, 5);
 }
 
 function afegirTarea($descripcion) {
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
     global $tareas;
     $id = generarID($descripcion);
     $dataAfegit = date('Y-m-d H:i:s');
@@ -71,11 +69,13 @@ function llistarTareas() {
     }
 }
 
-<<<<<<< HEAD
+
 function eliminarTarea( $archiu_json, $id) {
-=======
+
+
+
 function eliminarTarea($id) {
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
     global $tareas;
     if (isset($tareas[$id])) {
         unset($tareas[$id]);
@@ -100,11 +100,11 @@ while (true) {
         case 'a':
             echo "Introduce la descripción de la tarea: ";
             $descripcion = readline();
-<<<<<<< HEAD
+
             $id = afegirTarea($archiu_json, $descripcion);
-=======
+
             $id = afegirTarea($descripcion);
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
             echo "Se ha añadido una nueva tarea con el identificador $id.\n";
             break;
 
@@ -117,22 +117,22 @@ while (true) {
         case 'c':
             echo "Introduce el identificador de la tarea a marcar como completada: ";
             $id = readline();
-<<<<<<< HEAD
+
             MarcarTareas($archiu_json, $id);
-=======
+
             eliminarTarea($id);
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
             break;
 
         case 'D':
         case 'd':
             echo "Introduce el identificador de la tarea a eliminar: ";
             $id = readline();
-<<<<<<< HEAD
+
             eliminarTarea($archiu_json, $id);
-=======
+
             eliminarTarea($id);
->>>>>>> 6b3dc13e00ec486b2ff9e87f44ad4b20e119a45d
+
             break;
 
         case 'F':
@@ -145,4 +145,5 @@ while (true) {
             break;
     }
 }
+
 ?>
